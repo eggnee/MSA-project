@@ -1,6 +1,7 @@
 package com.sparta.msa_exam.order;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "orderCache", key = "args[0]")
     public OrderDto readOne(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         return OrderDto.fromEntity(order);
