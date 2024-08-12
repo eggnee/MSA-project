@@ -25,16 +25,16 @@ public class JwtAuthenticationFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
-//        if (path.equals("/auth/signIn")) {
-//            return chain.filter(exchange);
-//        }
-//
-//        String token = extractToken(exchange);
-//
-//        if (token == null || !validateToken(token)) {
-//            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-//            return exchange.getResponse().setComplete();
-//        }
+        if (path.equals("/auth/signIn")) {
+            return chain.filter(exchange);
+        }
+
+        String token = extractToken(exchange);
+
+        if (token == null || !validateToken(token)) {
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
 
         return chain.filter(exchange);
     }
